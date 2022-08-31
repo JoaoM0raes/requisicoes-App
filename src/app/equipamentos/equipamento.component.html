@@ -1,0 +1,76 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-8 col-lg-5 mx-auto">
+       <div class="text-center text-md-start">
+           <h1 class="fw-bold text-primary">
+              Equipamentos
+           </h1>
+       </div>
+       <div class="d-grid d-md-block gap-2 mt-4">
+         <button type="button" class="btn btn-primary me-md-1 col-md-2" (click)="abrirModal(content)">
+           + Novo
+         </button>
+         <a role="button" class="btn btn-outline-primary col-md-2 " routerLink="/painel" >Voltar</a>
+       </div>
+    </div>
+     <div >
+        <table class="table table-light table-striped table-hover mt-5">
+           <thead class="thead-dark text-center">
+              <tr>
+                  <th>Numero de Série</th>
+                  <th>Nome do equipamento</th>
+                  <th>Preço aquisição</th>
+                  <th>Data-Fabricação</th>
+                  <th>ações</th>
+              </tr>
+           </thead>
+           <tbody class="text-center">
+               <tr *ngFor="let equipamento of (equipamento$ | async)">
+                   <td>{{equipamento.serie}}</td>
+                   <td>{{equipamento.nome}}</td>
+                   <td>{{"R$ "+equipamento.preco }}</td>
+                   <td>{{equipamento.data}}</td>
+
+                   <td class="d-grid d-md-block">
+                       <button class="btn btn-primary" (click)="abrirModal(content,equipamento)">
+                          Editar
+                       </button>
+                       <button class="btn btn-outline-danger ml-2" (click)="excluir(equipamento)">
+                          Excluir
+                       </button>
+                   </td>
+               </tr>
+           </tbody>
+        </table>
+     </div>
+  </div>
+</div>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Inserção de Departamento</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form" (ngSubmit)="modal.close('Save click')">
+      <div class="mb-3">
+
+        <div class="form-goup mt-5">
+           <label for="nome">Serie</label>
+           <input formControlName="serie" class="form-control"  placeholder="Digite  a Serie para o cadastro">
+           <label for="telefone">Nome</label>
+           <input formControlName="nome" class="form-control"  placeholder="Digite o Nome para o cadastro">
+           <label for="telefone">Preço</label>
+           <input formControlName="preço" type="text" class="form-control"  placeholder="Digite o Preço para o cadastro">
+           <label for="telefone">Data</label>
+           <input formControlName="data" type="date" class="form-control"  placeholder="Digite a Data para o cadastro">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-dark" >enviar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('fechar')">cancelar</button>
+      </div>
+    </form>
+  </div>
+
+</ng-template>
+
