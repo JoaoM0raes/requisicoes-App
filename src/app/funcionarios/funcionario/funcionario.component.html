@@ -3,7 +3,7 @@
     <div class="col-12 col-md-8 col-lg-5 mx-auto">
        <div class="text-center text-md-start">
            <h1 class="fw-bold text-primary">
-              Departamentos
+              Funcionarios
            </h1>
        </div>
        <div class="d-grid d-md-block gap-2 mt-4">
@@ -18,19 +18,24 @@
            <thead class="thead-dark text-center">
               <tr>
                   <th>Nome</th>
-                  <th>Telefone</th>
-                  <th>Ações</th>
+                  <th>Email</th>
+                  <th>Funcao</th>
+                  <th>Departamento</th>
+                  <th>ações</th>
               </tr>
            </thead>
            <tbody class="text-center">
-               <tr *ngFor="let departamento of (departamento$ | async)">
-                   <td>{{departamento.nome}}</td>
-                   <td>{{departamento.telefone}}</td>
+               <tr *ngFor="let funcionario of (funcionarios$ | async)">
+                   <td>{{funcionario.nome}}</td>
+                   <td>{{funcionario.email}}</td>
+                   <td>{{funcionario.funcao }}</td>
+                   <td>{{funcionario.Departamento?.nome}}</td>
+
                    <td class="d-grid d-md-block">
-                       <button type="button" class="btn btn-primary" (click)="abrirModal(content,departamento)">
+                       <button class="btn btn-primary" (click)="abrirModal(content,funcionario)">
                           Editar
                        </button>
-                       <button class="btn btn-outline-danger ml-2" (click)="excluir(departamento)">
+                       <button class="btn btn-outline-danger ml-2" (click)="excluir(funcionario)">
                           Excluir
                        </button>
                    </td>
@@ -46,21 +51,31 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="modal.close">
+    <form [formGroup]="form" (ngSubmit)="modal.close('Save click')">
       <div class="mb-3">
 
         <div class="form-goup mt-5">
-          <label for="nome">Nome</label>
-           <input formControlName="nome" class="form-control"  placeholder="Digite o Nome para o cadastro">
-           <label for="telefone">Telefone</label>
-           <input formControlName="telefone" class="form-control"  placeholder="Digite o Telefone para o cadastro">
+           <label for="Nome">Nome</label>
+           <input formControlName="nome" class="form-control"  placeholder="Digite  a Serie para o cadastro">
+           <label for="Email">Email</label>
+           <input formControlName="email" class="form-control"  placeholder="Digite o Nome para o cadastro">
+           <label for="Funcao">Funcao</label>
+           <input formControlName="funcao" type="text" class="form-control"  placeholder="Digite o Preço para o cadastro">
+           <label for="departamentoId">Departamento</label>
+           <ng-select formControlName="departamentoId" [searchable]="false">
+                <ng-option *ngFor="let Departamento of (departamentos$ | async)" [value]="Departamento.id" >
+                     {{Departamento.nome}}
+                </ng-option>
+           </ng-select>
+
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">enviar</button>
+        <button type="submit" class="btn btn-outline-dark" >enviar</button>
         <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('fechar')">cancelar</button>
       </div>
     </form>
   </div>
 
 </ng-template>
+

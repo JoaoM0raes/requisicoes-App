@@ -2,7 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
-import { Departamento } from './modules/departamendo.module';
+import { Departamento } from './modules/departamento.model';
 import { DepartamentoService } from './services/departamento.service';
 
 @Component({
@@ -21,6 +21,7 @@ export class DepartamentoComponent implements OnInit {
     this.departamento$=this.departamentoService.selecionarTodos();
 
     this.form=this.formBuilder.group({
+      id:new FormControl(""),
       nome:new FormControl(""),
       telefone:new FormControl("")
     })

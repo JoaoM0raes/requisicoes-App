@@ -38,6 +38,7 @@ export class EquipamentoComponent implements OnInit {
       this.equipamento$=this.service.selecionarTodos();
 
     this.form=this.formBuilder.group({
+      id:new FormControl(""),
       nome:new FormControl(""),
       serie:new FormControl(""),
       data:new FormControl(""),

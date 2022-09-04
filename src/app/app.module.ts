@@ -14,8 +14,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { PainelComponent } from './painel/painel.component';
 import { NavibarComponent } from './navibar/navibar.component';
-import { DepartamentoModule } from './departamentos/departamento.module';
-import { EquipamentoModule } from './equipamentos/equipamento.module';
+
 
 
 @NgModule({
@@ -32,9 +31,8 @@ import { EquipamentoModule } from './equipamentos/equipamento.module';
     NgbModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule,
-    DepartamentoModule,
-    EquipamentoModule
+    AngularFirestoreModule
+
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]

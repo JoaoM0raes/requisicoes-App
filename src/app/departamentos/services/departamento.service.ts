@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { Observable } from 'rxjs';
-import { Departamento } from '../modules/departamendo.module';
+import { Departamento } from '../modules/departamento.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartamentoService {
-    registros:AngularFirestoreCollection<Departamento>
+
+  public registros:AngularFirestoreCollection<Departamento>
+
   constructor(private firestore:AngularFirestore) {
      this.registros=firestore.collection<Departamento>("departamentos")
    }
