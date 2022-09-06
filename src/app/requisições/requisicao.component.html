@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-8 col-lg-5">
+    <div class="col-12 col-md-5 col-lg-5 ">
        <div class="text-center text-md-start">
            <h1 class="fw-bold text-primary">
-              Funcionarios
+              Requisicoes
            </h1>
        </div>
        <div class="d-grid d-md-block gap-2 mt-4">
@@ -17,25 +17,27 @@
         <table class="table table-light table-striped table-hover mt-5">
            <thead class="thead-dark text-center">
               <tr>
-                  <th>Nome</th>
-                  <th>Email</th>
-                  <th>Funcao</th>
+                  <th>Descrição</th>
+                  <th>Solicitante</th>
                   <th>Departamento</th>
-                  <th>ações</th>
+                  <th>Equipamento</th>
+                  <th>Data</th>
+                  <th>funcções</th>
               </tr>
            </thead>
            <tbody class="text-center">
-               <tr *ngFor="let funcionario of (funcionarios$ | async)">
-                   <td>{{funcionario.nome}}</td>
-                   <td>{{funcionario.email}}</td>
-                   <td>{{funcionario.funcao }}</td>
-                   <td>{{funcionario.Departamento?.nome}}</td>
+               <tr *ngFor="let requisicao of (requisicoes$ | async)">
+                   <td>{{requisicao.descricao}}</td>
+                   <td>{{requisicao.funcionario?.nome}}</td>
+                   <td>{{requisicao.departamento?.nome }}</td>
+                   <td>{{requisicao.equipamento?.nome}}</td>
+                   <td>{{requisicao.data}}</td>
 
                    <td class="d-grid d-md-block">
-                       <button class="btn btn-primary" (click)="abrirModal(content,funcionario)">
+                       <button class="btn btn-primary" (click)="abrirModal(content,requisicao)">
                           Editar
                        </button>
-                       <button class="btn btn-outline-danger ml-2" (click)="excluir(funcionario)">
+                       <button class="btn btn-outline-danger ml-2" (click)="excluir(requisicao)">
                           Excluir
                        </button>
                    </td>
@@ -51,23 +53,30 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="modal.close('Save click')">
+    <form [formGroup]="form" (ngSubmit)="modal.close('Save click');ArrumarData(); ">
       <div class="mb-3">
 
         <div class="form-goup mt-5">
-           <label for="Nome">Nome</label>
-           <input formControlName="nome" class="form-control"  placeholder="Digite  a Serie para o cadastro">
-           <label for="Email">Email</label>
-           <input formControlName="email" class="form-control"  placeholder="Digite o Nome para o cadastro">
-           <label for="Funcao">Funcao</label>
-           <input formControlName="funcao" type="text" class="form-control"  placeholder="Digite o Preço para o cadastro">
+           <label for="descricao">Descrição</label>
+           <input formControlName="descricao" class="form-control"  placeholder="Digite a descricao">
            <label for="departamentoId">Departamento</label>
            <ng-select formControlName="departamentoId" [searchable]="false">
                 <ng-option *ngFor="let Departamento of (departamentos$ | async)" [value]="Departamento.id" >
                      {{Departamento.nome}}
                 </ng-option>
            </ng-select>
-
+           <label for="funcionarioId">Funcionario</label>
+           <ng-select formControlName="funcionarioId" [searchable]="false">
+                 <ng-option *ngFor="let Funcionario of (funcionarios$ | async)" [value]="Funcionario.id" >
+                      {{Funcionario.nome}}
+                 </ng-option>
+           </ng-select>
+           <label for="equipamentoId"e>Equipamento</label>
+           <ng-select formControlName="equipamentoId" [searchable]="false">
+                 <ng-option *ngFor="let equipamento of (equipamentos$ | async)" [value]="equipamento.id" >
+                       {{equipamento.nome}}
+                 </ng-option>
+             </ng-select>
         </div>
       </div>
       <div class="modal-footer">

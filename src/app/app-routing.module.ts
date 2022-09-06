@@ -19,7 +19,12 @@ const routes: Routes = [
  {path:"equipamentos",loadChildren:()=>import("./equipamentos/equipamento.module")
  .then(m=>m.EquipamentoModule),
  canActivate:[AuthGuard]
+},
+{path:"requisicoes",loadChildren:()=>import("./requisições/requisicao.module")
+.then(m=>m.RequisicaoModule),
+canActivate:[AuthGuard]
 }
+
 ];
 
 @NgModule({
