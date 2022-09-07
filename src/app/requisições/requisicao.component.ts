@@ -84,6 +84,7 @@ export class RequisicaoComponent implements OnInit {
     var ano =data.getFullYear();
 
     var dataHoje:string=`${dia+4}/${mes+1}/${ano}`
+    console.log(dataHoje)
     this.form.get("data")?.setValue(dataHoje)
   }
 
