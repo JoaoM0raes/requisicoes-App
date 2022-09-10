@@ -4,7 +4,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { AuthenticationService } from '../auth/services/authentication.service';
 import { Departamento } from '../departamentos/modules/departamento.model';
 import { DepartamentoService } from '../departamentos/services/departamento.service';
 import { equipamento } from '../equipamentos/modules/equipamento.module';
@@ -25,11 +26,14 @@ export class RequisicaoComponent implements OnInit {
   public departamentos$:Observable<Departamento[]>
   public requisicoes$:Observable<requisiscao[]>
   public equipamentos$:Observable<equipamento[]>
+  public processoAutenticado$: Subscription;
+
+  public funcionarioLogadoId:string
 
   public form:FormGroup
 
 
-  constructor(private FormBuilder:FormBuilder,private serviceFuncionario:FuncionarioService,private serviceDepartamaneto:DepartamentoService,private serviceRequisicao:RequisicaoService,private serviceEquipamento:EquipamentoService,private modalService:NgbModal)
+  constructor(private FormBuilder:FormBuilder,private serviceFuncionario:FuncionarioService,private serviceDepartamaneto:DepartamentoService,private serviceRequisicao:RequisicaoService,private serviceEquipamento:EquipamentoService,private modalService:NgbModal,private authService: AuthenticationService)
    {
 
    }
@@ -39,6 +43,16 @@ export class RequisicaoComponent implements OnInit {
      this.departamentos$=this.serviceDepartamaneto.selecionarTodos();
      this.requisicoes$=this.serviceRequisicao.selecionarTodos();
      this.equipamentos$=this.serviceEquipamento.selecionarTodos();
+
+     this.authService.usuarioLogado.subscribe(usuario => {
+      const email = usuario?.email!;
+
+      this.processoAutenticado$ = this.serviceFuncionario.selecionarFuncionarioLogado(email)
+      .subscribe(funcionario => {
+        this.funcionarioLogadoId = funcionario.id
+        this.requisicoes$ = this.serviceRequisicao.selecionarRequisicoesFuncionario(this.funcionarioLogadoId);
+      });
+    })
 
     this.form=this.FormBuilder.group({
       id:new FormControl(""),
@@ -75,6 +89,8 @@ export class RequisicaoComponent implements OnInit {
   public excluir(registro:requisiscao){
     this.serviceRequisicao.excluir(registro);
   }
+
+
   public ArrumarData(){
     var data = new Date();
 

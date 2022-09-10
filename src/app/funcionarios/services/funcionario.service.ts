@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from '@angular/fire/compat/firestore';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Departamento } from 'src/app/departamentos/modules/departamento.model';
 
 import { Funcionario } from '../models/funcionario.model';
@@ -49,4 +49,17 @@ export class FuncionarioService {
    public excluir(registro:Funcionario){
          this.registros.doc(registro.id).delete();
    }
+   public selecionarFuncionarioLogado(email:string):Observable<Funcionario>{
+    return this.firestore
+    .collection<Funcionario>("funcionarios",ref=>{
+          return ref.where("email","==", email)
+    })
+    .valueChanges()
+    .pipe(
+      take(1),
+      map(funcionarios =>{
+           return funcionarios[0];
+      } )
+    )
+}
 }

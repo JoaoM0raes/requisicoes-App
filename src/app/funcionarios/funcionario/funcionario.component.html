@@ -52,24 +52,33 @@
   </div>
   <div class="modal-body">
     <form [formGroup]="form" (ngSubmit)="modal.close('Save click')">
-      <div class="mb-3">
+      <div class="mb-3" >
+          <div formGroupName="funcionario">
+            <div class="form-goup mt-5">
+              <label for="Nome">Nome</label>
+              <input formControlName="nome" class="form-control"  placeholder="Digite  a Serie para o cadastro">
+              <label for="Email">Email</label>
+              <input formControlName="email" class="form-control"  placeholder="Digite o Nome para o cadastro">
+              <label for="Funcao">Funcao</label>
+              <input formControlName="funcao" type="text" class="form-control"  placeholder="Digite o Preço para o cadastro">
+              <label for="departamentoId">Departamento</label>
+              <ng-select formControlName="departamentoId" [searchable]="false">
+                  <ng-option *ngFor="let Departamento of (departamentos$ | async)" [value]="Departamento.id" >
+                        {{Departamento.nome}}
+                  </ng-option>
+              </ng-select>
+            </div>
 
-        <div class="form-goup mt-5">
-           <label for="Nome">Nome</label>
-           <input formControlName="nome" class="form-control"  placeholder="Digite  a Serie para o cadastro">
-           <label for="Email">Email</label>
-           <input formControlName="email" class="form-control"  placeholder="Digite o Nome para o cadastro">
-           <label for="Funcao">Funcao</label>
-           <input formControlName="funcao" type="text" class="form-control"  placeholder="Digite o Preço para o cadastro">
-           <label for="departamentoId">Departamento</label>
-           <ng-select formControlName="departamentoId" [searchable]="false">
-                <ng-option *ngFor="let Departamento of (departamentos$ | async)" [value]="Departamento.id" >
-                     {{Departamento.nome}}
-                </ng-option>
-           </ng-select>
+          </div>
+
+           <div class="form-group mb-3"  *ngIf="!this.Id?.value">
+            <label for="senha" class="form-label">Senha</label>
+            <input formControlName="senha" class="form-control" type="password" placeholder="Insira uma senha">
+           </div>
 
         </div>
-      </div>
+
+
       <div class="modal-footer">
         <button type="submit" class="btn btn-outline-dark" >enviar</button>
         <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('fechar')">cancelar</button>

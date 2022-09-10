@@ -23,4 +23,7 @@ export class AuthenticationService {
    public deslogar():Promise<void>{
        return this.auth.signOut();
    }
+   public cadastrar(email: string, senha: string): Promise<firebase.auth.UserCredential>{
+    return this.auth.createUserWithEmailAndPassword(email, senha);
+  }
 }
