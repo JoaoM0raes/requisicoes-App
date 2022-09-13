@@ -21,88 +21,29 @@ import { RequisicaoService } from './services/requisicao.service';
   styleUrls: ['./requisicao.component.css']
 })
 export class RequisicaoComponent implements OnInit {
+  navLinks: any[];
 
-  public funcionarios$:Observable<Funcionario[]>
-  public departamentos$:Observable<Departamento[]>
-  public requisicoes$:Observable<requisiscao[]>
-  public equipamentos$:Observable<equipamento[]>
-  public processoAutenticado$: Subscription;
-
-  public funcionarioLogadoId:string
-
-  public form:FormGroup
-
-
-  constructor(private FormBuilder:FormBuilder,private serviceFuncionario:FuncionarioService,private serviceDepartamaneto:DepartamentoService,private serviceRequisicao:RequisicaoService,private serviceEquipamento:EquipamentoService,private modalService:NgbModal,private authService: AuthenticationService)
-   {
-
-   }
-
+  constructor(){
+    this.navLinks = [
+      {
+          label: 'Minhas Requisicoes',
+          link: '/requisicoes/funcionario',
+          index: 0
+      }, {
+          label: 'Requisicoes Departamento',
+          link: '/requisicoes/departamento',
+          index: 1
+      }
+  ];
+  }
   ngOnInit(): void {
-     this.funcionarios$=this.serviceFuncionario.selecionarTodos();
-     this.departamentos$=this.serviceDepartamaneto.selecionarTodos();
-     this.requisicoes$=this.serviceRequisicao.selecionarTodos();
-     this.equipamentos$=this.serviceEquipamento.selecionarTodos();
-
-     this.authService.usuarioLogado.subscribe(usuario => {
-      const email = usuario?.email!;
-
-      this.processoAutenticado$ = this.serviceFuncionario.selecionarFuncionarioLogado(email)
-      .subscribe(funcionario => {
-        this.funcionarioLogadoId = funcionario.id
-        this.requisicoes$ = this.serviceRequisicao.selecionarRequisicoesFuncionario(this.funcionarioLogadoId);
-      });
-    })
-
-    this.form=this.FormBuilder.group({
-      id:new FormControl(""),
-      descricao:new FormControl(""),
-      departamentoId:new FormControl(""),
-      departamento:new FormControl(""),
-      funcionarioId:new FormControl(""),
-      funcionario:new FormControl(""),
-      equipamentoId:new FormControl(""),
-      equipamento:new FormControl(""),
-      data:new FormControl("")
-    })
-  }
-  public async abrirModal(modal:TemplateRef<any>,requisicao?:requisiscao){
-    this.form.reset();
-
-    if(requisicao)
-      this.form.setValue(requisicao);
-
-    try{
-       await this.modalService.open(modal).result
-       if(!requisicao){
-         await this.serviceRequisicao.inserir(this.form.value);
-       }
-       else{
-         await this.serviceRequisicao.editar(this.form.value)
-       }
-
-    }
-    catch(error){
-
-    }
-  }
-  public excluir(registro:requisiscao){
-    this.serviceRequisicao.excluir(registro);
+    throw new Error('Method not implemented.');
   }
 
 
-  public ArrumarData(){
-    var data = new Date();
 
-    var dia = data.getDay();
 
-    var mes =data.getMonth();
-    var ano =data.getFullYear();
 
-    var dataHoje:string=`${dia+4}/${mes+1}/${ano}`
-    console.log(dataHoje)
-    this.form.get("data")?.setValue(dataHoje)
-  }
 
 
 }

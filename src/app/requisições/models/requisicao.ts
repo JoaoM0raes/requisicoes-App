@@ -10,6 +10,6 @@ export class requisiscao{
    funcionarioId:string;
    equipamento?:equipamento;
    equipamentoId:string;
-   data:Date
+   data:Date | any;
 
 }

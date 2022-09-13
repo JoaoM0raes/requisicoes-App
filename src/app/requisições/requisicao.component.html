@@ -1,90 +1,14 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12 col-md-5 col-lg-5 ">
-       <div class="text-center text-md-start">
-           <h1 class="fw-bold text-primary">
-              Requisicoes
-           </h1>
-       </div>
-       <div class="d-grid d-md-block gap-2 mt-4">
-         <button type="button" class="btn btn-primary me-md-1 col-md-2" (click)="abrirModal(content)">
-           + Novo
-         </button>
-         <a role="button" class="btn btn-outline-primary col-md-2 " routerLink="/painel" >Voltar</a>
-       </div>
-    </div>
-     <div >
-        <table class="table table-light table-striped table-hover mt-5">
-           <thead class="thead-dark text-center">
-              <tr>
-                  <th>Descrição</th>
-                  <th>Solicitante</th>
-                  <th>Departamento</th>
-                  <th>Equipamento</th>
-                  <th>Data</th>
-                  <th>funcções</th>
-              </tr>
-           </thead>
-           <tbody class="text-center">
-               <tr *ngFor="let requisicao of (requisicoes$ | async)">
-                   <td>{{requisicao.descricao}}</td>
-                   <td>{{requisicao.funcionario?.nome}}</td>
-                   <td>{{requisicao.departamento?.nome }}</td>
-                   <td>{{requisicao.equipamento?.nome}}</td>
-                   <td>{{requisicao.data}}</td>
-
-                   <td class="d-grid d-md-block">
-                       <button class="btn btn-primary" (click)="abrirModal(content,requisicao)">
-                          Editar
-                       </button>
-                       <button class="btn btn-outline-danger ml-2" (click)="excluir(requisicao)">
-                          Excluir
-                       </button>
-                   </td>
-               </tr>
-           </tbody>
-        </table>
-     </div>
-  </div>
+  <nav class="tab" mat-tab-nav-bar>
+    <a mat-tab-link
+    *ngFor="let link of navLinks"
+    [routerLink]="link.link"
+    routerLinkActive #rla="routerLinkActive"
+    [active]="rla.isActive">
+   {{link.label}}
+  </a>
+  </nav>
+  <router-outlet></router-outlet>
 </div>
-<ng-template #content let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Inserção de Departamento</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('fechar')"></button>
-  </div>
-  <div class="modal-body">
-    <form [formGroup]="form" (ngSubmit)="modal.close('Save click');ArrumarData(); ">
-      <div class="mb-3">
 
-        <div class="form-goup mt-5">
-           <label for="descricao">Descrição</label>
-           <input formControlName="descricao" class="form-control"  placeholder="Digite a descricao">
-           <label for="departamentoId">Departamento</label>
-           <ng-select formControlName="departamentoId" [searchable]="false">
-                <ng-option *ngFor="let Departamento of (departamentos$ | async)" [value]="Departamento.id" >
-                     {{Departamento.nome}}
-                </ng-option>
-           </ng-select>
-           <label for="funcionarioId">Funcionario</label>
-           <ng-select formControlName="funcionarioId" [searchable]="false">
-                 <ng-option *ngFor="let Funcionario of (funcionarios$ | async)" [value]="Funcionario.id" >
-                      {{Funcionario.nome}}
-                 </ng-option>
-           </ng-select>
-           <label for="equipamentoId"e>Equipamento</label>
-           <ng-select formControlName="equipamentoId" [searchable]="false">
-                 <ng-option *ngFor="let equipamento of (equipamentos$ | async)" [value]="equipamento.id" >
-                       {{equipamento.nome}}
-                 </ng-option>
-             </ng-select>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-dark" >enviar</button>
-        <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('fechar')">cancelar</button>
-      </div>
-    </form>
-  </div>
-
-</ng-template>
 

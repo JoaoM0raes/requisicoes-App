@@ -14,6 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationService } from './auth/services/authentication.service';
 import { PainelComponent } from './painel/painel.component';
 import { NavibarComponent } from './navibar/navibar.component';
+import { MovimentacaoComponent } from './requisições/movimentacoes/movimentacao.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -22,7 +24,8 @@ import { NavibarComponent } from './navibar/navibar.component';
     AppComponent,
     LoginComponent,
     PainelComponent,
-    NavibarComponent
+    NavibarComponent,
+    MovimentacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +34,8 @@ import { NavibarComponent } from './navibar/navibar.component';
     NgbModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
-    AngularFirestoreModule
-
+    AngularFirestoreModule,
+    BrowserAnimationsModule
   ],
   providers: [AuthenticationService],
   bootstrap: [AppComponent]
